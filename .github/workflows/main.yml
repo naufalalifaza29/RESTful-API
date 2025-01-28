@@ -21,6 +21,8 @@ jobs:
     needs: build
     runs-on: self-hosted
     steps:
+      - name: premission cnfg
+        run: sudo chmod 666 /var/run/docker.sock
       - name: Pull image from docker hub
         run: docker pull naufalalifaza/nodejs-app:latest
       - name: Delete old container
