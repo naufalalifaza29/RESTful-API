@@ -11,19 +11,19 @@ jobs:
       - name: Checkout source
         uses: actions/checkout@v3
       - name: Login to docker hub
-        run: docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }} 
+        run: docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
       - name: Build docker image
         run: docker build -t naufalalifaza/nodejs-app .
       - name: Publish image to docker hub
         run: docker push naufalalifaza/nodejs-app:latest
-        
+
   deploy:
     needs: build
-    runs-on: [ip-172-31-31-208]
+    runs-on: [runner-app]
     steps:
       - name: Pull image from docker hub
-        run: docker pull integrationninjas/nodejs-app:latest
+        run: docker pull naufalalifaza/nodejs-app:latest
       - name: Delete old container
         run: docker rm -f nodejs-app-container
       - name: Run docker container
-        run: docker run -d -p 5000:5000 --name restapi-app-container naufalalifaza/nodejs-app
+        run: docker run -d -p 3000:3000 --name restapi-app-container naufalalifaza/nodejs-app
